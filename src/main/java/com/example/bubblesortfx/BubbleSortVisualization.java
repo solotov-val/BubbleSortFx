@@ -46,6 +46,9 @@ public class BubbleSortVisualization extends Application {
             barChart = new BarChart<>(xAxis, yAxis);
             barChart.setTitle("Bubble Sort Animation");
             barChart.setAnimated(false);
+            barChart.setHorizontalGridLinesVisible(false);
+            barChart.setVerticalGridLinesVisible(false);
+            barChart.setLegendVisible(false);
 
             // Create the series for the bar chart
             XYChart.Series<String, Number> series = new XYChart.Series<>();
