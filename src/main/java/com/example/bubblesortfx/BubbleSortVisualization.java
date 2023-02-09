@@ -44,7 +44,15 @@ public class BubbleSortVisualization extends Application {
             // Initialize the array with random values
             array = new int[numNumbers];
             for (int i = 0; i < array.length; i++) {
-                array[i] = (int) (Math.random() * 1000);
+                //array[i] = (int) (Math.random() * 1000);
+                array[i] = i + 1;
+            }
+            //shuffle array
+            for (int i = 0; i < array.length; i++) {
+                int randomIndex = (int) (Math.random() * array.length);
+                int temp = array[i];
+                array[i] = array[randomIndex];
+                array[randomIndex] = temp;
             }
 
             // Create the bar chart
@@ -61,7 +69,8 @@ public class BubbleSortVisualization extends Application {
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             for (int i = 0; i < array.length; i++) {
                 series.getData().add(new XYChart.Data<>(String.valueOf(i), array[i]));
-                System.out.println(("array[i] = " + array[i]));
+                //barChart.getData().get(i).getNode().setStyle("-fx-bar-fill: green;");
+                System.out.println((i + ": " + array[i]));
             }
             barChart.getData().add(series);
 
