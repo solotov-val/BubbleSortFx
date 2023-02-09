@@ -13,6 +13,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.Console;
 import java.util.Optional;
 
 public class BubbleSortVisualization extends Application {
@@ -29,15 +30,21 @@ public class BubbleSortVisualization extends Application {
     public void start(Stage stage) throws Exception {
         // Create the dialog box to get the number of numbers to sort
         TextInputDialog dialog = new TextInputDialog();
+        dialog.setGraphic(null);
         dialog.setTitle("Number of Numbers");
         dialog.setHeaderText("Enter the number of numbers to sort:");
         Optional<String> result = dialog.showAndWait();
+        TextInputDialog dialog2 = new TextInputDialog();
+        dialog2.setTitle("Animationspeed");
+        dialog.setGraphic(null);
+        dialog2.setHeaderText("Enter the speed of the animation for each step[ms]:");
+        Optional<String> speed = dialog2.showAndWait();
         if (result.isPresent()) {
             int numNumbers = Integer.parseInt(result.get());
             // Initialize the array with random values
             array = new int[numNumbers];
             for (int i = 0; i < array.length; i++) {
-                array[i] = (int) (Math.random() * 100);
+                array[i] = (int) (Math.random() * 1000);
             }
 
             // Create the bar chart
@@ -54,6 +61,7 @@ public class BubbleSortVisualization extends Application {
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             for (int i = 0; i < array.length; i++) {
                 series.getData().add(new XYChart.Data<>(String.valueOf(i), array[i]));
+                System.out.println(("array[i] = " + array[i]));
             }
             barChart.getData().add(series);
 
@@ -65,15 +73,16 @@ public class BubbleSortVisualization extends Application {
             // Start the bubble sort algorithm
             currentIndex = 0;
             endIndex = array.length - 1;
-            sort();
+            sort(speed);
         }
     }
 
 
-    private void sort() {
+    private void sort(Optional<String> s) {
+        long speed = Long.parseLong(s.get());
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100), event -> {
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(speed), event -> {
             boolean isSorted = true;
             for (int i = 0; i < endIndex; i++) {
                 if (array[i] > array[i + 1]) {
