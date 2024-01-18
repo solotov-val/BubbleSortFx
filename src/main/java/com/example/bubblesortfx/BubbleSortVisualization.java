@@ -4,6 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -12,8 +13,11 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.paint.Color;
 
 import java.io.Console;
+import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 
 public class BubbleSortVisualization extends Application {
@@ -60,22 +64,39 @@ public class BubbleSortVisualization extends Application {
             NumberAxis yAxis = new NumberAxis();
             barChart = new BarChart<>(xAxis, yAxis);
             barChart.setTitle("Bubble Sort Animation");
+            barChart.setStyle("-fx-text: white;");
+            barChart.setBarGap(0);
             barChart.setAnimated(false);
             barChart.setHorizontalGridLinesVisible(false);
             barChart.setVerticalGridLinesVisible(false);
             barChart.setLegendVisible(false);
+            xAxis.setVisible(false);
+            yAxis.setVisible(false);
+            xAxis.setTickLabelsVisible(false);
+            yAxis.setTickLabelsVisible(false);
+            barChart.setStyle("-fx-background-color: black");
+
 
             // Create the series for the bar chart
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             for (int i = 0; i < array.length; i++) {
                 series.getData().add(new XYChart.Data<>(String.valueOf(i), array[i]));
-                //barChart.getData().get(i).getNode().setStyle("-fx-bar-fill: green;");
+                //barChart.getData().get(i).getData().get(i).getNode().setStyle("-fx-bar-fill: white;");
+                //barChart.get(i).getNode().setStyle("-fx-bar-fill: white;");
                 System.out.println((i + ": " + array[i]));
             }
             barChart.getData().add(series);
+            for (Node n : barChart.lookupAll(".default-color0.chart-bar")) {
+                n.setStyle("-fx-bar-fill: black;");
+                //change color of the diagram to black
+            }
 
             // Create the scene and add the chart to it
             Scene scene = new Scene(barChart, 800, 600);
+            //add the css file
+            URL cssUrl = getClass().getResource("style.css");
+            //System.out.println("CSS URL: " + cssUrl);
+            scene.getStylesheets().add(String.valueOf(Objects.requireNonNull(cssUrl)));
             stage.setScene(scene);
             stage.show();
 
